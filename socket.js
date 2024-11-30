@@ -15,7 +15,10 @@ const initializeSocket = (server) => {
 	});
 
 	io.on("connection", (socket) => {
-		console.log("Client connected:", socket.id);
+		const clientInterface = socket.handshake.auth.clientName;
+		//socket.auth.clientName
+
+		console.log("Client connected:", clientInterface, socket.id);
 
 		socket.on("taskCommitted", (data) => {
 			console.log(`Task committed by volunteer ${data.volunteerId}`);

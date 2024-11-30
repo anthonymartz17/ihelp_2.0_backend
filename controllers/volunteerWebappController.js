@@ -77,13 +77,13 @@ volunteerWebpp.post("/tasks/:taskId/commit", async (req, res) => {
 });
 
 volunteerWebpp.post("/tasks/:taskId/uncommit", async (req, res) => {
-	console.log("fireing");
+
 	try {
 		const { taskId } = req.params;
 		// const uid = req.user.uid;
 		const uid = "bWDLGo3svlbYEDGc2qfXzWnwBdK2";
 		const volunteer = await getVolunteerIdByUid(uid);
-		console.log(volunteer, "volunteer");
+
 		if (!volunteer) {
 			return res.status(404).json({ message: "Volunteer not found" });
 		}
@@ -138,7 +138,7 @@ volunteerWebpp.post("/quest/tasks/:id/progress", async (req, res) => {
 			return res.status(404).json({ message: "Volunteer not found" });
 		}
 		const quest = await updateQuestProgress(id, volunteer.id);
-		console.log(quest, "quest");
+
 		if(!quest){
 			return res.status(404).json({ message: "Quest not found" });
 		}	

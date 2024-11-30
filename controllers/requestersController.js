@@ -9,6 +9,7 @@ const {
 } = require("../queries/requestersQueries");
 
 requesters.get("/", async (req, res) => {
+
   try {
     const uid = req.user.uid;
     const allRequesters = await getAllRequesters(uid);

@@ -29,7 +29,7 @@ const getAllRewards = async (uid) => {
 
     return allRewards;
   } catch (error) {
-    console.error("Error fetching rewards:", error);
+
     throw new Error("Server error");
   }
 };
