@@ -28,7 +28,7 @@ const getAllRequesters = async (uid) => {
 
     return allRequesters;
   } catch (error) {
-    console.error("Error fetching requesters:", error);
+
     throw new Error("Server error");
   }
 };

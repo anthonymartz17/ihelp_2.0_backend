@@ -17,7 +17,7 @@ const getAllBadges = async () => {
     );
     return allBadges;
   } catch (error) {
-    console.error("Error fetching badges:", error);
+
     throw new Error("Server error");
   }
 };

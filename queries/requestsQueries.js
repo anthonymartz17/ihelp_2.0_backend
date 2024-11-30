@@ -77,6 +77,7 @@ const getRequestById = async (id) => {
 				requesters.phone AS requester_phone,
 				requests.status_id,
 				request_status.name AS status_name,
+				requests.due_date,
 				requests.description,
 				COUNT(DISTINCT request_task.id) AS total_tasks,
 				COUNT(DISTINCT assigned_tasks.request_task_id) AS assigned_tasks,
@@ -85,13 +86,17 @@ const getRequestById = async (id) => {
 				json_agg(
 					json_build_object(
 						'id', request_task.id,
-						'description', request_task.task,
+						'task', request_task.task,
 						'due_date', request_task.due_date,
-						'points_earned', request_task.point_earnings,
+						'point_earnings', request_task.point_earnings,
 						'volunteer_id', volunteers.id,
+						'volunteer_avatar', avatars.img_url,
 						'volunteer_name', volunteers.name,
 						'volunteer_email', volunteers.email,
-						'task_progress', task_progress.name
+						'task_progress', task_progress.name,
+						'task_progress_id', task_progress.id,
+						'task_status_name', task_status.name,
+						'task_status_id', request_task.task_status_id
 					)
 				) AS tasks
 			FROM requests
@@ -101,7 +106,9 @@ const getRequestById = async (id) => {
 			LEFT JOIN request_task ON requests.id = request_task.request_id     
 			LEFT JOIN assigned_tasks ON request_task.id = assigned_tasks.request_task_id
 			LEFT JOIN volunteers ON assigned_tasks.volunteer_id = volunteers.id
+			LEFT JOIN avatars ON volunteers.avatar_id = avatars.id
 			LEFT JOIN task_progress ON assigned_tasks.task_progress_id = task_progress.id
+			LEFT JOIN task_status ON request_task.task_status_id = task_status.id
 			WHERE requests.id = $1
 			GROUP BY 
 				requests.id,
@@ -135,11 +142,11 @@ const getRequestById = async (id) => {
 const createRequest = async (
 	uid,
 	{
-		category,
+		category_id,
 		due_date,
 		description,
 		hours_needed,
-		requester,
+		requester_id,
 		tasks,
 		event_time,
 	}
@@ -164,11 +171,11 @@ const createRequest = async (
 			RETURNING *`,
 			[
 				organization_id,
-				requester,
+				requester_id,
 				1,
 				description,
 				hours_needed,
-				category,
+				category_id,
 				due_date,
 				event_time,
 			]
@@ -182,7 +189,7 @@ const createRequest = async (
 		  ($1, $2, $3, $4, $5, $6,$7) 
 		  RETURNING id`,
 				[
-					requester,
+					requester_id,
 					organization_id,
 					newRequest.id,
 					parseInt(task.point_earnings, 10),

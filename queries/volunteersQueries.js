@@ -32,7 +32,7 @@ const getAllVolunteers = async (uid) => {
 
     return allVolunteers;
   } catch (error) {
-    console.error("Error fetching volunteers:", error);
+
     throw new Error("Server error");
   }
 };
