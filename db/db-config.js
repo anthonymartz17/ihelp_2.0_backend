@@ -1,7 +1,8 @@
 const pgp = require("pg-promise")();
 require("dotenv").config();
 
-const { DATABASE_URL, PG_HOST, PG_PORT, PG_DATABASE, PG_USER } = process.env;
+const { DATABASE_URL, PG_HOST, PG_PORT, PG_DATABASE, PG_USER, PG_PASSWORD } =
+	process.env;
 const cn = DATABASE_URL
 	? {
 			connectionString: DATABASE_URL,
@@ -23,8 +24,8 @@ db.connect()
 			"\x1b[90m" +
 				`Postgres connection established with user:${user}, host:${host}, port:${port}, database:${database}` +
 				"\x1b[0m"
-    );
-    
+		);
+
 		cn.done();
 	})
 	.catch((error) => console.log("database connection error", error));
