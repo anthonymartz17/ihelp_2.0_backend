@@ -1,6 +1,6 @@
 const admin = require("firebase-admin");
-const serviceAccount = process.env.FIREBASE_CREDENTIALS
-	? JSON.parse(process.env.FIREBASE_CREDENTIALS)
+const serviceAccount = import.meta.env.FIREBASE_CREDENTIALS
+	? JSON.parse(import.meta.env.FIREBASE_CREDENTIALS)
 	: require("./firebase-credentials.json");
 
 admin.initializeApp({

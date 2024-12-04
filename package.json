@@ -4,9 +4,8 @@
 	"description": "Backend repository for iHelp",
 	"main": "server.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "node server.js",
-		"db:setup": "psql -U postgres -f db/schema.sql && psql -U postgres -f db/seed.sql"
+		"dev": "psql -U postgres -f db/schema.sql && psql -U postgres -f db/seed.sql",
+		"start": "node server.js"
 	},
 	"author": "",
 	"license": "ISC",
