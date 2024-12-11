@@ -4,6 +4,7 @@ CREATE DATABASE ihelp_db;
 
 \c ihelp_db;
 
+
 CREATE TABLE addresses (
     id SERIAL PRIMARY KEY,
     street VARCHAR(255) NOT NULL,
