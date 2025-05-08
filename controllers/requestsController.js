@@ -6,12 +6,20 @@ const {
 	createRequest,
 	updateRequest,
 	deleteRequest,
+	getCurrentAdmin
 } = require("../queries/requestsQueries");
 
 requests.get("/", async (req, res) => {
 	try {
 		const uid = req.user.uid;
-		const allRequests = await getAllRequests(uid);
+
+		console.log(uid,'hay algo');
+	
+		const admin = await getCurrentAdmin(uid);
+		if (!admin) {
+			return res.status(403).json({ message: "Unauthorized" });
+		}
+		const allRequests = await getAllRequests(admin.organization_id);
 		res.status(200).json(allRequests);
 	} catch (error) {
 		res.status(500).json({ error, message: error.message });
@@ -36,7 +44,12 @@ requests.get("/:id", async (req, res) => {
 requests.post("/", async (req, res) => {
 	try {
 		const uid = req.user.uid;
-		const result = await createRequest(uid, req.body);
+
+		const admin = await getCurrentAdmin(uid);
+		if (!admin) {
+			return res.status(403).json({ message: "Unauthorized" });
+		}
+		const result = await createRequest(admin.organization_id, req.body);
 		res.status(201).json(result);
 	} catch (error) {
 		res.status(500).json({ error, message: error.message });
