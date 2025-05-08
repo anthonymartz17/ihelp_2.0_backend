@@ -6,12 +6,17 @@ const {
   createVolunteer,
   updateVolunteer,
   deleteVolunteer,
+  getCurrentAdmin,
 } = require("../queries/volunteersQueries");
 
 volunteers.get("/", async (req, res) => {
   try {
     const uid = req.user.uid;
-    const allVolunteers = await getAllVolunteers(uid);
+    const admin = await getCurrentAdmin(uid);
+    if (!admin) {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+    const allVolunteers = await getAllVolunteers(admin.organization_id);
     res.status(200).json(allVolunteers);
   } catch (error) {
     res.status(500).json({ error: "Server error" });

@@ -17,7 +17,6 @@ CREATE TABLE addresses (
 );
 
 CREATE TABLE organizations (
-    uid VARCHAR(255) NOT NULL,
     id SERIAL PRIMARY KEY,
     address_id INT REFERENCES addresses (id) ON DELETE CASCADE,
     phone VARCHAR(255) NOT NULL,
@@ -26,6 +25,19 @@ CREATE TABLE organizations (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE admins(
+    id SERIAL PRIMARY KEY,
+    uid VARCHAR(255) NOT NULL,
+    organization_id INT REFERENCES organizations (id) ON DELETE CASCADE,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    phone VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+ 
+
+);
+
 
 CREATE TABLE requesters (
     id SERIAL PRIMARY KEY,

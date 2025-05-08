@@ -1,16 +1,11 @@
 const db = require("../db/db-config.js");
 
-const getAllRequests = async (uid) => {
+function getCurrentAdmin(uid) {
+	return db.oneOrNone("SELECT * FROM admins WHERE uid = $1", [uid]);
+}
+
+const getAllRequests = async (organization_id) => {
 	try {
-		const organization = await db.oneOrNone(
-			"SELECT id FROM organizations WHERE uid = $1",
-			[uid]
-		);
-
-		if (!organization) {
-			throw new Error("Organization not found");
-		}
-
 		const allRequests = await db.any(
 			`
 			SELECT 
@@ -51,7 +46,7 @@ const getAllRequests = async (uid) => {
 			requests.updated_at;
 	
       `,
-			[organization.id]
+			[organization_id]
 		);
 
 		return allRequests;
@@ -140,7 +135,7 @@ const getRequestById = async (id) => {
 };
 
 const createRequest = async (
-	uid,
+	organization_id,
 	{
 		category_id,
 		due_date,
@@ -151,17 +146,6 @@ const createRequest = async (
 		event_time,
 	}
 ) => {
-	const organization = await db.oneOrNone(
-		"SELECT id FROM organizations WHERE uid = $1",
-		[uid]
-	);
-
-	if (!organization) {
-		throw new Error("Organization not found");
-	}
-
-	const organization_id = organization.id;
-
 	try {
 		const newRequest = await db.one(
 			`INSERT INTO requests 
@@ -277,6 +261,7 @@ const deleteRequest = async (id) => {
 };
 
 module.exports = {
+	getCurrentAdmin,
 	getAllRequests,
 	getRequestById,
 	createRequest,

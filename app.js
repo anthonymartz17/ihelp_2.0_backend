@@ -29,12 +29,12 @@ app.use(
 app.use(express.json());
 
 // Root Route
-app.get("/", (req, res) => res.send("Welcome to iHelp"));
+app.get("/", (req, res) => res.send("Welcome to iHelp 2.0"));
 
 // Routes
 app.use("/badges", badgesController);
 app.use("/organizations", verifyToken, organizationsController);
-app.use("/requesters", verifyToken, requestersController);
+app.use("/requesters", requestersController);
 app.use("/requests", verifyToken, requestsController);
 app.use("/tasks", verifyToken, requestTasksController);
 app.use("/rewards", verifyToken, rewardsController);
