@@ -12,8 +12,6 @@ const {
 requests.get("/", async (req, res) => {
 	try {
 		const uid = req.user.uid;
-
-		console.log(uid,'hay algo');
 	
 		const admin = await getCurrentAdmin(uid);
 		if (!admin) {

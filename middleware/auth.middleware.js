@@ -2,7 +2,7 @@ const admin = require("../firebase-admin.js");
 
 async function verifyToken(req, res, next) {
 	const token = req.headers.authorization?.split("Bearer ")[1];
-
+	
 	if (!token) {
 		return res
 			.status(403)
@@ -10,9 +10,11 @@ async function verifyToken(req, res, next) {
 	}
 	try {
 		const decodedToken = await admin.auth().verifyIdToken(token);
+		console.log(decodedToken, "decodedToken");
 		req.user = decodedToken;
 		next();
 	} catch (error) {
+		console.log(error, "what is the error");
 		return res
 			.status(403)
 			.json({ message: "Unauthorized - Invalid token", error });

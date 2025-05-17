@@ -34,7 +34,7 @@ app.get("/", (req, res) => res.send("Welcome to iHelp 2.0"));
 // Routes
 app.use("/badges", badgesController);
 app.use("/organizations", verifyToken, organizationsController);
-app.use("/requesters", requestersController);
+app.use("/requesters", verifyToken, requestersController);
 app.use("/requests", verifyToken, requestsController);
 app.use("/tasks", verifyToken, requestTasksController);
 app.use("/rewards", verifyToken, rewardsController);
