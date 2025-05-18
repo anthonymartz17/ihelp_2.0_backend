@@ -14,7 +14,7 @@ INSERT INTO organizations (address_id, phone, name, description) VALUES
 
 
 INSERT INTO admins (uid,organization_id, first_name, last_name, phone) VALUES
-('jdc7HdF9YIVT7MgmULrrP8ETPg63',1, 'Maria', 'Cams', '12343456678');
+('ZbrNQv1igSNqksDTmhnnoViftxF3',1, 'Antonio', 'Martinez', '12343456678');
 
 
 

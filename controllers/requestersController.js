@@ -12,6 +12,7 @@ const {
 requesters.get("/", async (req, res) => {
 	try {
 		const uid = req.user.uid;
+		console.log(req.user,"que llega?")
 		const admin = await getCurrentAdmin(uid);
 
 		if (!admin) {
