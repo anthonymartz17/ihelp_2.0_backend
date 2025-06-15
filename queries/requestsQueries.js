@@ -250,9 +250,21 @@ const updateRequest = async (id, updates) => {
 
 const deleteRequest = async (id) => {
 	try {
+		const OPEN_STATUS_ID = 1;
+		const { exists } = await db.one(
+			"SELECT EXISTS (SELECT 1 FROM request_task WHERE request_id = $1 AND task_status_id != $2)",
+			[id, OPEN_STATUS_ID]
+		);
+
+		if (exists) {
+			throw new Error(
+				"Cannot delete request: one or more tasks have already been assigned."
+			);
+		}
+
 		const deletedRequest = await db.one(
 			"DELETE FROM requests WHERE id=$1 RETURNING *",
-			id
+			[id]
 		);
 		return deletedRequest;
 	} catch (error) {

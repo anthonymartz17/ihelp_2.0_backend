@@ -107,7 +107,8 @@ INSERT INTO request_status (name) VALUES
 ('OPEN'), 
 ('ASSIGNED'), 
 ('IN PROGRESS'), 
-('COMPLETE');
+('COMPLETE'),
+('CANCELLED'); 
 
 
 
@@ -134,7 +135,8 @@ INSERT INTO task_status (name) VALUES
 ('OPEN'), 
 ('ASSIGNED'), 
 ('IN PROGRESS'),
-('COMPLETED');
+('COMPLETED'),
+('CANCELLED');
 
 INSERT INTO request_task (requester_id, organization_id, request_id, point_earnings, task, due_date, task_status_id) VALUES
 -- Mix of OPEN and ASSIGNED Tasks for OPEN Requests

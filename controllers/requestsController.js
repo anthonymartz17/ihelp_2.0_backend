@@ -6,13 +6,13 @@ const {
 	createRequest,
 	updateRequest,
 	deleteRequest,
-	getCurrentAdmin
+	getCurrentAdmin,
 } = require("../queries/requestsQueries");
 
 requests.get("/", async (req, res) => {
 	try {
 		const uid = req.user.uid;
-	
+
 		const admin = await getCurrentAdmin(uid);
 		if (!admin) {
 			return res.status(403).json({ message: "Unauthorized" });
@@ -60,7 +60,6 @@ requests.put("/:id", async (req, res) => {
 		const result = await updateRequest(id, req.body);
 		res.status(200).json(result);
 	} catch (error) {
-
 		res.status(500).json({ error: "Server error" });
 	}
 });
@@ -75,8 +74,8 @@ requests.delete("/:id", async (req, res) => {
 		} else {
 			res.status(404).json({ error: "Request not found" });
 		}
-	} catch (error) {
-		res.status(500).json({ error: "Server error" });
+	} catch (err) {
+		res.status(500).json({ error: "Server error", message: err.message });
 	}
 });
 
